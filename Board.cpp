@@ -2,7 +2,7 @@
 #include "Board.hpp"
 /*
     Board.cpp.
-    Author: Tell Schreiber.
+    Author: Tal Schreiber.
 */
 using namespace std;
 
