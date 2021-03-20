@@ -9,7 +9,7 @@ using namespace ariel;
 using namespace std;
 /*
     Test.
-    Author: Tell Schreiber.
+    Author: Tal Schreiber.
 */
 
 Board board;
