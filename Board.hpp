@@ -3,7 +3,7 @@
 #include "Direction.hpp"
 /*
     Board.hpp.
-    Author: Tell Schreiber.
+    Author: Tal Schreiber.
 */
 using namespace std;
 
