@@ -101,30 +101,39 @@ TEST_CASE("test read- length 0")
 TEST_CASE("Show test")
 {
     ariel::Board bMsgBox;
-    CHECK_NOTHROW(bMsgBox.post(0, 0, Direction::Horizontal, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
-    CHECK_NOTHROW(bMsgBox.post(1, 0, Direction::Horizontal, "                                       "));
-    CHECK_NOTHROW(bMsgBox.post(2, 0, Direction::Horizontal, "              _______________________  "));
-    CHECK_NOTHROW(bMsgBox.post(3, 0, Direction::Horizontal, "             |     Message Board     | "));
-    CHECK_NOTHROW(bMsgBox.post(4, 0, Direction::Horizontal, "   -         |    #                  | "));
-    CHECK_NOTHROW(bMsgBox.post(5, 0, Direction::Horizontal, "  /_\\        |    #      ###         | "));
-    CHECK_NOTHROW(bMsgBox.post(6, 0, Direction::Horizontal, "\\(o_O)       |     #      ##*        | "));
-    CHECK_NOTHROW(bMsgBox.post(7, 0, Direction::Horizontal, " (]_[)>|####||              *####    | "));
-    CHECK_NOTHROW(bMsgBox.post(8, 0, Direction::Horizontal, " () ()       |______###_____#####____| "));
-    CHECK_NOTHROW(bMsgBox.post(9, 0, Direction::Horizontal, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"));
-
+    CHECK_NOTHROW(bMsgBox.post(0, 0, Direction::Horizontal, "_______________________________________"));
+    CHECK_NOTHROW(bMsgBox.post(1, 0, Direction::Horizontal, "_~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~__"));
+    CHECK_NOTHROW(bMsgBox.post(2, 0, Direction::Horizontal, "_             _______________________ _"));
+    CHECK_NOTHROW(bMsgBox.post(3, 0, Direction::Horizontal, "_             |     Message Board     |_"));
+    CHECK_NOTHROW(bMsgBox.post(4, 0, Direction::Horizontal, "_   -         |    #                  |_"));
+    CHECK_NOTHROW(bMsgBox.post(5, 0, Direction::Horizontal, "_  /_\\        |    #      ###         |_"));
+    CHECK_NOTHROW(bMsgBox.post(6, 0, Direction::Horizontal, "_\\(o_O)       |     #      ##*        |_"));
+    CHECK_NOTHROW(bMsgBox.post(7, 0, Direction::Horizontal, "_ (]_[)>|####||              *####    |_"));
+    CHECK_NOTHROW(bMsgBox.post(8, 0, Direction::Horizontal, "_ () ()       |______###_____#####____|_"));
+    CHECK_NOTHROW(bMsgBox.post(9, 0, Direction::Horizontal, "_~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~_"));
+    CHECK_NOTHROW(bMsgBox.post(10, 0, Direction::Horizontal, "_______________________________________"));
+    //__________________________________________
+    //_________ _|     Message Board       |
+    //   -         |    #                  | 
+    //  /_\\        |    #      ###        |____
+    //_\(o_O)       |     #      ##*       |____
+    //_(]_[)>|####||              *####    |____
+    //_() ()       |______###_____#####____|____
+    //__________________________________________
     bMsgBox.show();
     vector<string> sMsgBox;
-    sMsgBox.push_back( "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    sMsgBox.push_back("                                       ");
-    sMsgBox.push_back("              _______________________  ");
-    sMsgBox.push_back("             |     Message Board     | ");
-    sMsgBox.push_back("   -         |    #                  | ");
-    sMsgBox.push_back("  /_\\        |    #      ###         | ");
-    sMsgBox.push_back("\\(o_O)       |     #      ##*        | ");
-    sMsgBox.push_back(" (]_[)>|####||              *####    | ");
-    sMsgBox.push_back(" () ()       |______###_____#####____| ");
-    sMsgBox.push_back("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    for (unsigned int i = 0; i < 10; i++)
+    sMsgBox.push_back("_______________________________________");
+    sMsgBox.push_back("_~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~__");
+    sMsgBox.push_back("_             _______________________ _");
+    sMsgBox.push_back("_             |     Message Board     |_");
+    sMsgBox.push_back("_   -         |    #                  |_");
+    sMsgBox.push_back("_  /_\\        |    #      ###         |_");
+    sMsgBox.push_back("_\\(o_O)       |     #      ##*        |_");
+    sMsgBox.push_back("_ (]_[)>|####||              *####    |_");
+    sMsgBox.push_back("_ () ()       |______###_____#####____|_");
+    sMsgBox.push_back("_~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~_");
+    sMsgBox.push_back("_______________________________________");
+    for (unsigned int i = 0; i < 11; i++)
     {
         unsigned int len =sMsgBox.at(i).length();
         CHECK(bMsgBox.read(i, 0, Direction::Horizontal, len) == string(sMsgBox.at(i)));
