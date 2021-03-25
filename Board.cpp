@@ -7,212 +7,57 @@
 using namespace std;
 
 namespace ariel {
-    void Board::update_min_col(){
-        uint min=this->min_col;
-        uint count=0;
-        // cout << "\nmin col="<<min<< endl;
-        for(ulong i = 0; i < this->rows; i++) {
-            for (ulong j = 0; j < this->cols; j++) 
-            {
-                if(this->board.at(i).at(j)=='_'){
-                    count++;
-                }
-                else{
-                    cout<< "\ncount col="<< count<<endl;
-                    break;
-                }
-            }
-            if(count<min){
-                min=count;
-            }
-                count=0;
+ void Board::post(uint row, uint col, Direction direction, string message) 
+ {
+        uint len=message.length();
+        if(this->flag){
+            this->flag=false;
+            this->min_col=col;
+            this->min_row=row;
         }
-        this->min_col=min;
-    }
-    void Board::update_min_row(){
-        uint min=this->min_row;
-        uint count=0;
-        for (ulong i = 0; i < this->cols; i++) {
-            // cout << "\nmin row="<<min<< endl;
-            for (ulong j = 0; j < this->rows; j++) 
-            {
-                if(this->board.at(i).at(j)=='_'){
-                    count++;
-                }
-                else{
-                    cout<< "\ncount row="<< count<<endl;
-                    break;
-                }
-            }
-            if(count<min){
-                min=count;
-            }
-                count=0;
+        if(direction==Direction::Horizontal){
+            this->max_row = max(this->max_row, row);
+            this->max_col = max(this->max_col, col+len);
         }
-        
-        this->min_row=min;
-    }
-    void Board::update_max_col(){
-        uint min=this->max_col;
-        uint count=0;
-        for (ulong i = this->rows; i <=0 ; i++) {
-            for (ulong j =  this->cols; j <=0; j++) 
-            {
-                if(this->board.at(i).at(j)=='_'){
-                    count++;
-                }
-                else{
-                    break;
-                }
-            }
-            if(count<min){
-                min=count;
-            }
-                count=0;
+        else{
+            this->max_row = max(this->max_row, row+len);
+            this->max_col = max(this->max_col, col);
         }
-        this->max_col=this->cols-min;
-    }
-    void Board::update_max_row(){
-        uint min=this->max_row;
-        uint count=0;
-        for (ulong i = this->cols; i <=0 ; i++) {
-            for (ulong j =  this->rows; j <=0; j++) 
-            {
-                if(this->board.at(i).at(j)=='_'){
-                    count++;
-                }
-                else{
-                    break;
-                }
-            }
-            if(count<min){
-                min=count;
-            }
-                count=0;
-        }
-        this->max_row=this->rows-min;
-        
-    }
-    void Board::edgeRefresher(){
-        update_min_row();
-        update_max_row();
-        update_min_col();
-        update_max_col();
-    }
 
-    void Board::boardResize(uint r, uint c){        
-        this->rows = r;
-        this->cols = c;
-        this->board.resize(r);
-        for (ulong i = 0; i < r ; i++){
-            this->board[i].resize(c, '_');
-        }
-    }
-
-    void Board::post(uint row, uint col, Direction direction, string message) {
-        uint len = message.size();
-        bool f = direction == Direction::Horizontal;
-        // Firstly checking the side and if board's resize necessary.
-        try{
-        if(f)
-        {
-            boardResize(std::max(this->rows, row+1), std::max(this->cols, col+ len+1));
-            // update_min_col();
-        }
-        else
-        {
-            boardResize(std::max(this->rows, row + len+1) , std::max(this->cols, col+1));
-            // update_min_row();
-        }
-        // Secondly post the board.
-        for(ulong i=0; i<len; i++)
-        {
-            this->board[row][col] = message[i];
-            if(f)
-            {
-                col++;
-            }
-            else
-            {
-                row++;
-            }
-        }
-        }
-        catch(const std::out_of_range){
-            cout<< "post outofrange\n";
-        }    
-    }
-
-    string Board::read(uint row, uint col, Direction direction, uint length) 
-    {
-        string msgBoard;
-        ulong start=0;
-        
-        try{
-            // cout<< "\nthis here\n";
-        if(direction == Direction::Horizontal)
-        {
-            boardResize(std::max(this->rows, row+1), std::max(this->cols, col  + length+1));
-            cout<< "\nthis here horizontal\n";
-            // update_min_col();
-
-            // start=this->min_col;
-        }
-        else
-        {
-            boardResize(std::max(this->rows, row+1 ), std::max(this->cols, col+1));
-            cout<< "\nthis here vertical\n";
-            // update_min_row();
-            // start=this->min_row;
-        }
-        
-        for(ulong i=start; i<length; i++)
-        {
-            msgBoard += this->board.at(row).at(col);
-            if(direction == Direction::Horizontal)
-            {
+        this->min_row = min(this->min_row, row);
+        this->min_col = min(this->min_col, col);
+        for(ulong i=0 ;i<len;i++){
+            this->board[row][col].v = message[i];
+            if(direction == Direction::Horizontal){
                 col++;
             }
             else{
                 row++;
+            } 
+        }
+    }
+
+    string Board::read(uint row, uint col, Direction direction, uint length){
+        string msgBoard;
+        for(uint i=0; i<length; i++){
+            msgBoard += this->board[row][col].v;
+            if(direction == Direction::Horizontal){
+                col++;
             }
-            
-        }
-        // cout<<"\nfalid here\n";
-        }
-        catch(const std::out_of_range){
-            cout<<"read outofrange\n";
+            else{
+                row++;
+            } 
         }
         return msgBoard;
     }
-
-    void Board::show() 
-    { 
-        // edgeRefresher();
-        cout << "min row= "<< this->min_row <<endl;
-        cout << "max row= "<< this->max_row <<endl;
-        cout << "min col= "<< this->min_col <<endl;
-        cout << "max col= "<< this->max_col <<endl;
-        cout << "rows= "<< this->rows <<endl;
-        cout << "cols= "<< this->cols <<endl;
-        try{
-            // for (ulong i = this->min_row; i < this->max_row; i++) {
-            // cout << i<< ":";
-            // for (ulong j = this->min_col; j < this->max_col; j++) 
-         for (ulong i = 0; i < this->rows; i++) {cout << i<< ":";
-            for (ulong j = 0; j < this->cols; j++) 
-            {
-                // cout << "here ";
-                cout <<this->board.at(i).at(j) << " ";
+    
+    void Board::show() {
+        for (uint i = this->min_row; i < this->max_row; i++) {
+            cout << i<< ": ";
+            for (uint j = this->min_col; j < this->max_col; j++) {
+                cout << this->board[i][j].v ;
             }
-            cout << "\n\n";
-            // cout << "here out";
+            cout << "\n";
         }
-        }
-        catch(const std::out_of_range){
-            cout<<"outofrange";
-        }
-        cout << " end";
-        cout << "\n";
     }
 }

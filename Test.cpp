@@ -13,6 +13,7 @@ using namespace std;
 */
 
 Board board;
+
 //1
 TEST_CASE("test read before post")
 {
@@ -35,6 +36,7 @@ TEST_CASE("test read before post")
     CHECK(board.read(random_row, random_col, Direction::Vertical, random_len) == string(ans));
     CHECK(board.read(random_row, random_col, Direction::Horizontal, random_len) == string(ans));
 }
+
 //2
 TEST_CASE("test post")
 {
@@ -44,6 +46,7 @@ TEST_CASE("test post")
     CHECK_NOTHROW(board.post(5, 2, Direction::Horizontal, "Schreiber"));
     CHECK_NOTHROW(board.post(5, 2, Direction::Vertical, "messagebox"));
 }
+
 //3
 TEST_CASE("test read after post")
 {
@@ -53,7 +56,8 @@ TEST_CASE("test read after post")
     CHECK(board.read(5, 2, Direction::Horizontal, 9) == string("mchreiber"));
     CHECK(board.read(5, 2, Direction::Vertical, 11) == string("messagebox_"));
 }
-
+/*
+//4
 TEST_CASE("random")
 {
     ariel::Board bo;
@@ -79,7 +83,7 @@ TEST_CASE("random")
     CHECK(bo.read(random_row, random_col, Direction::Vertical, random_len) == string(ans));
      std::cout << "Done." << endl<<endl;
 }
-
+*/
 //5
 TEST_CASE("test read- length 0")
 {
@@ -139,7 +143,4 @@ TEST_CASE("Show test")
         CHECK(bMsgBox.read(i, 0, Direction::Horizontal, len) == string(sMsgBox.at(i)));
     }
     std::cout << "Message Box test fully successed" << endl;
-    
-
-    
 }
